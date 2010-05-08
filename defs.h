@@ -14,7 +14,8 @@
 #include <sys/wait.h>
 
 /*** Integer Definitions ***/
-#define NUMBEROFFILES       5
+#define NUMBEROFSMALLFILES  12
+#define NUMBEROFFILES       20
 #define SMALLMAXFILELENGTH  127
 #define SMALLMINFILELENGTH  1
 #define LARGEMAXFILELENGTH  128
