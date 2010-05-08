@@ -1,0 +1,152 @@
+\documentclass[letter,10pt]{article}
+%\usepackage{fullpage}
+
+\author{Devin Quirozoliver}
+\title{Programming Project 2: Threaded Buffer Using PThreads\\Design Document and Test Plan}
+\date{28 Apr 2010}
+
+\begin{document}
+
+\maketitle
+
+\section*{Design Document}
+
+The idea behind this project is to offer up a replacement for the default *nix shells (sh/bash/zsh/tcsh). The shell serves as a command line interpereter which executes userspace programs on behalf of the user. The must then be able to offer a command line prompt, fork new processes and offer at least rudimentary redirection capabilities. This project began as a simple shell written for CS201. Background, pipe and redirection logic were added recently, and some code was taken from both ``Modern Operating Systems`` by Tanenbaum and ``Advanced Programming in the UNIX environment``, by Stevens.
+
+My shell will be broken into modules which are arranged as follows:
+
+\begin{enumerate}
+    \item \textbf{Main:} Primary application logic and main loop.
+    \item \textbf{Input:} Command line interpereter.
+    \item \textbf{Proc:} Fork and exec logic, as well as backgrounding.
+    \item \textbf{Redir:} Logic for pipe and redirection logic.
+    \item \textbf{List:} Circular Linked List data structure for history mechanism.
+    \item \textbf{Util:} Common utility routines.  \item \textbf{Mysleep:} A simple test program which sleeps for a random number of seconds.
+\end{enumerate}
+
+Roughly, this shell will do the following:
+
+Take an input string containing keywords and parse it into commands. The first word in an input string is considered to be either a builtin keyword, or the name of a binary file contained within the system.  It should read one line at a time (newline terminated). The shell will accept the builtin keywords ``x``, ``exit``, ``logout`` or an EOF (Control-D) to exit.  A non-builtin command will be executed using the command using fork, execvp, and waitpid. The shell will fork a child, let the child call exec, and wait for the child to terminate. Upon initialization, a handler is declared for the ``SIGCHLD`` signal which watches for zombie processes and prevents them from running amok if the parent dies first. The following builtin commands are supported:
+\begin{enumerate}
+	\item \textbf{myshell} : Executes a line using the system command. Used only for manual testing and comparison.
+	\item \textbf{history} : List all commands contained in history, along with an index.
+	\item \textbf{!} : Execute a history command, based on its index. 
+	\item \textbf{x, exit, logout} : Exit the shell
+	\item \textbf{cd, chdir} : Change the shell directory.
+	\item \textbf{$<$} : Redirects output from a single command to an output file.
+	\item \textbf{$|$} : Redirects output from one command to a second command.
+	\item \textbf{\&} : Executes a single process in the background without waiting.
+\end{enumerate}
+
+\section*{Strengths and Weaknesses}
+    \subsection*{Strengths}
+        Modular design.
+        History mechanism.
+        Directory change implemented.
+        Pipe implemented using popen() allows for multiple pipes to be used.
+    \subsection*{Weaknesses}
+        No combinations of redirection, background and pipe have been implemented. These utilities may only be used one at a time. The background operator supports only one process at a time. The pipe and redirection operators support only two processes.
+        Incomplete Redirection logic. The ``$<$`` operator was the only operator implemented for this shell. 
+
+\section*{Functions, by module}
+    \subsection*{1: Main}
+    \begin{itemize}
+        \item \textbf{main()}
+            Main loop.
+        \item \textbf{prettyprompt()}
+            Print a prompt for the user.
+        \item \textbf{getinput()}
+            Get a raw line of input.
+        \item \textbf{initialize()}
+            Clear the screen for the user.
+        \item \textbf{cleanup()}
+            Clear the screen for the user.
+    \end{itemize}
+
+    \subsection*{2: Input}
+    \begin{itemize}
+        \item \textbf{handleinput()}
+            Test for builtins.
+    \end{itemize}
+
+    \subsection*{3: Process}
+    \begin{itemize}
+        \item \textbf{havechildren()}
+            Build a proper command string.
+            Generate a child process. 
+            Wait for child, unless a background character has been inserted.
+        \item \textbf{ordinaryfork()}
+            Fork a single process. Also does background handling.
+        \item \textbf{redirectionfork()}
+            Fork a redirected process.
+        \item \textbf{pipefork()}
+            Fork a piped process.
+    \end{itemize}
+
+
+    \subsection*{4: Redirection}
+    \begin{itemize}
+        \item \textbf{backgroundtest()}
+            Check the input string to see if the command will be backgrounded.
+        \item \textbf{operatortest()}
+            Check the input string to see whether there will be piping or redirection.
+    \end{itemize}
+
+    \subsection*{5: List}
+    \begin{itemize}
+        \item \textbf{initlist()}
+            A simple "constructor" which allocates memory.
+        \item \textbf{addstring()}
+            Add a single string to the list.
+        \item \textbf{prinstrings()}
+            Print all strings in the list.
+        \item \textbf{printcmd()}
+            Print a single string in the list, from its index.
+        \item \textbf{getcmd()}
+            Execute a command from the list based on its index.
+        \item \textbf{destructlist()}
+            Free all dynamic memory in the list.
+    \end{itemize}
+
+    \subsection*{6: Utility Functions}
+    \begin{itemize}
+        \item \textbf{tokenize()}
+            Break a string into multiple null delimited tokens.
+        \item \textbf{chomp()}
+            Remove trailing newline characters from char arrays.
+        \item \textbf{buildmulticmd()}
+            Create an array of commands from an input string.
+    \end{itemize}
+
+    \subsection*{7: Mysleep}
+    \begin{itemize}
+        \item \textbf{main()}
+            Sleeps for a random number of seconds.
+    \end{itemize}
+
+
+\section*{Test Plan}
+    \subsection*{Test mechanism}
+        Testing for this shell was done by piping input from a text file directly to the shell. Output is located in the file ``typescript`` and the test commands themselves are located in a file called ``qsh\_tests``, both packaged with the program source. A discussion of the implementation of the commands used can be found above. The commands used for testing are listed as follows: \\
+
+.
+\\ls -la\\
+df\\
+ls\\
+cd ..\\
+cd A3\\
+chdir ..\\
+history\\
+chdir A3\\
+ls -la\\
+df\\
+history\\
+1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 \\
+history\\
+history\\
+ls $|$ grep c\\
+ls $>$ ls\_output\\
+mysleep \& \\ 
+ls \\
+
+\end{document}
