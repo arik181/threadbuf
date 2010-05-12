@@ -8,7 +8,8 @@ AS	= as
 LD	= ld
 
 # Files
-SRC		= defs.h main.h main.c queue.h queue.c util.c 
+#SRC		= defs.h main.h main.c queue.h queue.c util.c filegen.c filegen.h
+SRC		= defs.h test_file_queue_integration.c filegen.c filegen.h queue.c queue.h
 TEXSRC = designdoc.tex 
 PDFFILES = designdoc.pdf 
 
