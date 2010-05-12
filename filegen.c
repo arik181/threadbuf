@@ -9,7 +9,7 @@
  * For the five generated files, if A is the size of the document in
  * characters, then:
  *
- *   "in1.txt" - "in12.txt" => {   0 < A < 129 } 
+ *  "in1.txt"  - "in12.txt" => {   0 < A < 129 } 
  *  "in13.txt" - "in20.txt" => { 128 < A < 256 } 
  *
  ***/

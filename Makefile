@@ -1,6 +1,5 @@
 # Change Me
-NAME1	= threadbuf
-NAME2	= filegen
+NAME	= prod_com
 ADIR	= arik182
 
 # Constant Variables
@@ -9,49 +8,40 @@ AS	= as
 LD	= ld
 
 # Files
+SRC		= defs.h q.c 
 #SRC	= defs.h filegen.c main.h main.c util.c
-SRC2	= defs.h filegen.c 
 TEXSRC = designdoc.tex 
 PDFFILES = designdoc.pdf 
 
 # Flags
-NC			= -lncurses
+#LIB		= -lncurses
+LIB			= -lpthread # -lrt
 DEBUG		= -g
 OPT			= -O2
 OBJECT		= -c
 PROFILE		= -pg
 CFLAGS		= $(DEBUG) 
-LDFLAGS		= -lc -dynamic-linker /lib/ld-linux.so.2
 
 ### Compile the application ###
 
-all : debug2
+all : debug
 
-debug1 : $(SRC)
-	$(CC) $(CFLAGS) $(SRC1) -o $(NAME1)
-	ctags $(SRC1)
-	gdb ./$(NAME1)
+debug : $(SRC)
+	$(CC) $(CFLAGS) $(SRC) $(LIB) -o $(NAME)
+	ctags $(SRC)
+	gdb ./$(NAME)
 
-debug2 : $(SRC)
-	$(CC) $(CFLAGS) $(SRC2) -o $(NAME2) 
-	ctags $(SRC2)
-	gdb ./$(NAME2)
-
-$(NAME1) : $(SRC)
-	$(CC) $(CFLAGS) -o $(NAME1) $(SRC)
-
-$(NAME2) : $(SRC)
-	$(CC) $(CFLAGS) -o $(NAME2) $(SRC)
+$(NAME) : $(SRC)
+	$(CC) $(CFLAGS) $(LIB) -o $(NAME) $(SRC)
 
 ### Special Cases ###
 
 clean : 
-	rm -rf $(NAME1) 
-	rm -rf $(NAME2) 
+	rm -rf $(NAME) 
 	rm -rf *.o 
 	rm -rf in*.txt
 
-homework : $(NAME1) $(NAME2) $(SRC) typescript
+homework : $(NAME) $(SRC) typescript
 	echo "Cleaning up..."
 	rm -rf $(ADIR)
 	echo "Creating directory..."
@@ -62,7 +52,7 @@ homework : $(NAME1) $(NAME2) $(SRC) typescript
 	echo "Done."
 
 UNAME		= arik181
-TITLE		= CS333 Project 1
+TITLE		= CS333 Project 2
 ADDRESS1	= cs333acc@cs.pdx.edu
 ADDRESS2	= $(UNAME)@gmail.com
 DIR			= $(UNAME)/
