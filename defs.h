@@ -14,6 +14,8 @@
 #include <sys/wait.h>
 
 /*** Integer Definitions ***/
+
+/*** File Related ***/
 #define NUMBEROFSMALLFILES  12
 #define NUMBEROFFILES       20
 #define SMALLMAXFILELENGTH  127
@@ -23,6 +25,10 @@
 #define SMALLFILE (rand() % SMALLMAXFILELENGTH) + SMALLMINFILELENGTH;
 #define LARGEFILE (rand() % LARGEMAXFILELENGTH) + LARGEMINFILELENGTH;
 #define MAXFILENAMESIZE     128
+
+/*** Buffer Related ***/
+#define NUMBEROFSLOTS       5
+#define SIZEOFSLOT          129
 #define FORMATSTRINGSIZE    30
 #define BYTESIZE            8
 #define CHARSIZE            1
@@ -35,14 +41,6 @@
 #define CHARSINARG          2
 #define HISTORYSIZE         100
 #define NUMLOCATION         1
-
-#define EXIT                5
-#define EX                  3
-#define LOGOUT              7
-#define CHDIR               6
-#define CD                  3
-#define MYSHELL             7
-#define HISTORY             7
 
 /*** Flags ***/
 #define SYM_LT          0x1

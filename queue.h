@@ -3,7 +3,7 @@
 
 #include "defs.h"
 
-/*** Queue Definition ***/
+/*** Queue/Node Definition ***/
 typedef struct node * nodeptr;
 typedef struct queue * queueptr;
 
