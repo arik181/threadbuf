@@ -6,33 +6,37 @@
 queueptr initqueue()
 {
 	/*** Allocate memory for a single queue construct ***/
-    queue q;
-	queueptr qptr = &q; 
+    queueptr queue = (queueptr) calloc(1, sizeof(struct queue));
     queue -> queueback = queue -> queuefront = NULL;
-    count = 0;
-	return qptr;
+    queue -> count = 0;
+	return queue;
 }
 
 
 /*** Add a file to the queue, increment file count ***/
 void addfile(char * filename, queueptr queue)
 {
-	if (count == 0)
+    if (queue)
     {
-		queue -> queueback = queue -> queuefront = \
-                             calloc(1, (sizeof *node));
-        queue -> back -> next = NULL;
-    }
-    else 
-    {
-        queueptr tmp = queue -> queueback;
-		queue -> queueback = calloc(1, (sizeof *node));
-        tmp -> next = queueback;
-        queue -> queueback -> next = NULL;
-    }
+        if (queue -> count == 0)
+        {
+            queue -> queuefront = queue -> queueback = \
+                                 (nodeptr) calloc(1, sizeof(struct node));
+            queue -> queueback -> next = NULL;
+            queue -> queueback -> prev = NULL;
+        }
+        else 
+        {
+            nodeptr tmp = queue -> queueback;
+            queue -> queueback = (nodeptr) calloc(1, sizeof(struct node));
+            queue -> queueback -> prev = tmp;
+            tmp -> next = queue -> queueback;
+            queue -> queueback -> next = NULL;
+        }
 
-	strncpy(queueback -> filename, filename, MAXLINESIZE);
-    ++count;
+        strncpy(queue -> queueback -> filename, filename, MAXLINESIZE);
+        ++queue -> count;
+    }
 }
 
 
@@ -54,19 +58,20 @@ void printfiles(queueptr queue)
 
 
 /*** Free up all memory used by the queue ***/
-void destructqueue(queueptr * queue)
+void destructqueue(queueptr queue)
 {
     if (queue)
     {
         nodeptr queueprev = queue -> queuefront;
         nodeptr queuenext = queue -> queuefront;
-    }
 
-    while (queuenext)
-    {
-        queuenext = queuenext -> next;
-        free(queueprev);
+        while (queuenext)
+        {
+            queuenext = queuenext -> next;
+            free(queueprev);
+            queueprev = queuenext;
+        }
+        free(queue);
     }
- 	free(*queue);
 }
 

@@ -18,12 +18,13 @@ struct node
 { 
 	char filename[MAXLINESIZE];
 	nodeptr next; 
+	nodeptr prev; 
 };
 
 /*** Queue Functions ***/
 queueptr initqueue();
 void addfile(char * filename, queueptr queue);
 void printfiles(queueptr queue);
-void destructqueue(queueptr * queue);
+void destructqueue(queueptr queue);
 
 #endif // QUEUE
