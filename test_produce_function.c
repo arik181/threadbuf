@@ -9,7 +9,7 @@
 
 int main(int argc, char ** argv)
 {
-    initbuffer();
+    initslots();
     exit(0);
 }
 

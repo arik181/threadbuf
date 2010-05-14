@@ -1,0 +1,43 @@
+Pthread buffer project for CS333.
+
+Makefile targets:  
+
+    make - compilation
+    make debug - compile and run gdb
+    make test - run tests and generate a typescript
+
+Header Files: 
+
+    consumer.h
+    defs.h
+    filegen.h
+    main.h
+    producer.h
+    queue.h
+    slot.h
+    util.h
+
+Source Files:
+
+    consumer.c
+    designdoc.tex
+    filegen.c
+    main.c
+    producer.c
+    producer.h
+    queue.c
+    slot.c
+    test_buffer.c
+    test_filegen.c
+    test_file_queue_integration.c
+    test_produce_function.c
+    test_queue.c
+    util.c
+
+
+Misc. Files: 
+
+    designdoc.pdf - contains both the design document and test plan.
+    tests - a text file containing all commands run during testing.
+    typescript - final script of tests
+    
