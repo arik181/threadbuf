@@ -10,3 +10,6 @@ struct producer
 producerptr initproducer();
 int openfile();
 int produce();
+
+void filetoslot(FILE fd, slotptr writeslot);
+void writetoslot(char inputchar, slotptr writeslot);
