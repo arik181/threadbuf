@@ -8,14 +8,17 @@ AS	= as
 LD	= ld
 
 # Files
+FILEGENSRC  = defs.h test_filegen.c filegen.c filegen.h
 #SRC		= defs.h main.h main.c queue.h queue.c util.c filegen.c filegen.h
-SRC		= defs.h test_file_queue_integration.c filegen.c filegen.h queue.c queue.h
+SRC		= defs.h slot.h producer.h queue.h filegen.h filegen.c test_produce_function.c slot.c producer.c queue.c
+#SRC = test_pthreads.c
+
 TEXSRC = designdoc.tex 
 PDFFILES = designdoc.pdf 
 
 # Flags
 #LIB		= -lncurses
-LIB			= -lpthread # -lrt
+#LIB			= -lpthread # -lrt
 DEBUG		= -g
 OPT			= -O2
 OBJECT		= -c
@@ -27,12 +30,15 @@ CFLAGS		= $(DEBUG)
 all : debug
 
 debug : $(SRC)
-	$(CC) $(CFLAGS) $(SRC) $(LIB) -o $(NAME)
-	ctags $(SRC)
+	$(CC) $(CFLAGS) $(LIB) -o $(NAME) $?
+	ctags $?
 	gdb ./$(NAME)
 
 $(NAME) : $(SRC)
-	$(CC) $(CFLAGS) $(LIB) -o $(NAME) $(SRC)
+	$(CC) $(CFLAGS) $(LIB) -o $@ $?
+
+filegen : $(FILEGENSRC)
+	$(CC) $(CFLAGS) -o $@ $?
 
 ### Special Cases ###
 

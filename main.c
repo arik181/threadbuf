@@ -16,7 +16,21 @@
 
 int main(int argc, char ** argv)
 {
-    // Create 5 consumer threads.
-    // Create 20 producer threads.
+// Create 5 consumer threads.
+// Create 20 producer threads.
+/*** down(mutex2);
+* ++writecount; 
+* if(writecount == 1)
+*   down(readblock);
+* up(mutex2);
+* down(writeblock);
+* access(resource);
+* up(writeblock);
+* down(mutex2);
+* --writecount;
+* if (writecount == 0)
+*   up (readblock);
+* up(mutex2);
+* ***/
 }
 

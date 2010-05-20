@@ -1,7 +1,7 @@
+#include "defs.h"
+
 #ifndef QUEUE
 #define QUEUE
-
-#include "defs.h"
 
 /*** Queue/Node Definition ***/
 typedef struct node * nodeptr;
@@ -23,6 +23,8 @@ struct node
 
 /*** Queue Functions ***/
 queueptr initqueue();
+char * getfile(queueptr queue);
+void dequeue(queueptr queue);
 void addfile(char * filename, queueptr queue);
 void printfiles(queueptr queue);
 void destructqueue(queueptr queue);

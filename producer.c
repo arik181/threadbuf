@@ -1,56 +1,42 @@
-int produce()
-{
-           /*** down(mutex2);
-            * ++writecount; 
-            * if(writecount == 1)
-            *   down(readblock);
-            * up(mutex2);
-            * down(writeblock);
-            * access(resource);
-            * up(writeblock);
-            * down(mutex2);
-            * --writecount;
-            * if (writecount == 0)
-            *   up (readblock);
-            * up(mutex2);
-            * ***/
-    char * array;
-//        while(1) 
-//        {
-//             gets the file name from the FIFO queue
-                 fd = requestfile(queue);
-//             reads the contents from that file
-                 array = readfile(fd);
-//             converts all characters to uppercase
-                 int i = 0;
-                 for(i=0;i<n;++i)
-                 {
-                     toupper(array[i]);
-                 }
-//             and writes the contents into any available buffer slot.
-                 strncpy(slot, array);
-//        }
-}
+#include "producer.h"
+#include "slot.h"
+#include "queue.h"
 
-void filetoslot(FILE fd, slotptr writeslot)
+int produce(char * filename, char * slot)
 {
-    char input = '\0';
-    if(fopen(fd))
+    FILE * inputfile;
+    char inputchar;
+    
+    if(slot)
     {
-        read(fd, input);
-        writetoslot(writeslot, input);
-    }
-}
-
-void writetoslot(char inputchar, slotptr writeslot)
-{
-    int i = 0;
-    for(i=0;i<SIZEOFSLOT;++i)
-    {
-        if(writeslot)
+        int j;
+        for (j=0;j < SIZEOFSLOT;++j)
         {
-            writeslot -> content[i] = inputchar;
+            slot[j] = '\0';
         }
+
+        // reads the contents from a file
+        if(inputfile = fopen(filename, "r"))
+        {
+            int i = 0;
+            while (i < SIZEOFSLOT)
+            {
+               //  converts all characters to uppercase
+               //  and writes the contents into the 
+               //  given buffer slot.
+               inputchar = fgetc(inputfile);
+               if (inputchar >= 'a' && inputchar <= 'z')
+                   slot[i] = UPPERCASE(inputchar);
+               ++i;
+               if (inputchar == EOF)
+                   break;
+            }
+            if(i < SIZEOFSLOT)
+                slot[i+1] = '\0';
+        }
+
+        printf("%s\n", slot);
     }
+    else return 0;
 }
 

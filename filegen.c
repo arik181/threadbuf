@@ -40,16 +40,17 @@ int generatefilenames(char filenames[NUMBEROFFILES][MAXFILENAMESIZE])
 
 int generatefiles(int * filesizes, char filenames[NUMBEROFFILES][MAXFILENAMESIZE])
 {
-    FILE * fd;
+    FILE * file;
     int j,k;
     char character = 'a';
 
     for (j=0;j<NUMBEROFFILES;++j,++character)
     {
-        if(fd = fopen(filenames[j],"w"))
+        if(file = fopen(filenames[j],"w"))
         {
             for (k=0;k<filesizes[j];++k)
-                fprintf(fd,"%c",character);
+                fprintf(file,"%c",character);
+            fclose(file);
         }
     }
 

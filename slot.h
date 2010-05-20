@@ -1,6 +1,7 @@
-/*** Buffer/Slot Definition ***/
-typedef struct slotgroup * slotgroupptr;
-typedef struct char ** slotptr;
+#include "defs.h"
+
+#ifndef SLOT
+#define SLOT
 
 struct slotgroup
 {
@@ -9,6 +10,11 @@ struct slotgroup
     int inuse[NUMBEROFSLOTS];
 };
 
-void initslots(bufferptr bufptr);
-slotptr requestslot();
 
+/*** Buffer/Slot Definition ***/
+typedef struct slotgroup * slotgroupptr;
+
+slotgroupptr initslots();
+char * requestslot();
+
+#endif // SLOT

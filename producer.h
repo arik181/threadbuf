@@ -1,4 +1,9 @@
 #include "defs.h"
+#include "queue.h"
+#include "slot.h"
+
+#ifndef PRODUCER
+#define PRODUCER
 
 typedef struct producer * producerptr;
 
@@ -9,7 +14,6 @@ struct producer
 
 producerptr initproducer();
 int openfile();
-int produce();
+int produce(char * filename, char * slot);
 
-void filetoslot(FILE fd, slotptr writeslot);
-void writetoslot(char inputchar, slotptr writeslot);
+#endif // PRODUCER

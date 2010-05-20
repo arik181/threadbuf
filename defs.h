@@ -1,7 +1,6 @@
 #ifndef DEFS
 #define DEFS
 
-
 /*** Includes ***/
 #include <stdlib.h>
 #include <stdio.h>
@@ -41,8 +40,11 @@
 #define CHARSINARG          2
 #define HISTORYSIZE         100
 #define NUMLOCATION         1
+#define UPPERCASE(x)        x-32
 
 /*** Flags ***/
+#define TRUE            0x1
+#define FALSE           0x0
 #define SYM_LT          0x1
 #define SYM_LT_APPEND   0x2
 #define SYM_GT          0x4

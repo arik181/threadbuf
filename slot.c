@@ -1,38 +1,44 @@
 #include "defs.h"
-#include "buffer.h"
+#include "slot.h"
 
 slotgroupptr initslots()
 {
-    slotgroup slotgrp;
-    slotgroupptr returngroup = &slotgrp;
-
-    int i = 0;
-    for(i=0;i<NUMBEROFSLOTS;++i)
-    {
-        strncpy(slotgrp.slot[i], "\0", 1);
-        slotgrp.inuse[i] = 0;
-        slotgrp.fillcount[i] = 0;
-    }
-
+    slotgroupptr returngroup = calloc(1, sizeof(struct slotgroup));
     return returngroup;
 }
 
-slotptr requestslot()
+void displayslots(slotgroupptr slotgrp)
 {
-    slotptr slot;
-    int inuse;
-    
-    if(bufptr)
+    int i = 0;
+    for(i=0;i<NUMBEROFSLOTS;++i)
     {
-        int i = 0;
-        for(i=0;i<NUMBEROFSLOTS;++i)
-        {
-            slot = &(bufptr -> slotgroup[i]);
-            inuse = bufptr -> inuse[i]
-
-            if (!inuse)
-                break;
-        }
+       printf("slot %d: %s\n", i, slotgrp -> slot[i]);
     }
-    return slot;
 }
+
+char * requestslot(slotgroupptr slotgrp)
+{
+    int i = 0;
+    while (i < NUMBEROFSLOTS)
+    {
+        if(slotgrp -> inuse[i] == FALSE)
+        {
+           slotgrp -> inuse[i] = TRUE;
+           return &(slotgrp -> slot[i][0]);
+        }
+        ++i;
+    }
+    return NULL;
+}
+
+destructslots(slotgroupptr slots)
+{
+    while (slots)
+    {
+       if (slots)
+       {
+            free(slots);
+       }
+    }
+}
+

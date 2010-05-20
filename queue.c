@@ -39,21 +39,54 @@ void addfile(char * filename, queueptr queue)
     }
 }
 
+char * getfile(queueptr queue)
+{
+    if (queue && ((queue -> count) > 0))
+    {
+       if (queue -> queuefront)
+       {
+            char * filename = calloc(1,(MAXFILENAMESIZE * sizeof(char)));
+            strncpy(filename, queue -> queuefront -> filename, SIZEOFSLOT);
+            dequeue(queue);
+            return filename;
+       }
+    }
+    else return NULL;
+}
+
+void dequeue(queueptr queue)
+{
+    if (queue && ((queue -> count) > 0))
+    {
+        nodeptr temp = queue -> queuefront;
+
+        if (temp)
+        {
+            queue -> queuefront = temp -> next;
+            queue -> queuefront -> prev = NULL;
+            free(temp);
+        }
+        --(queue -> count);
+    }
+}
 
 /*** Print all the filenames in the queue ***/
 void printfiles(queueptr queue)
 {
-	nodeptr printptr = queue -> queuefront;
+    if (queue)
+    {
+        nodeptr printptr = queue -> queuefront;
 
-	if(printptr)
-	{
-		while(printptr != NULL && \
-                (strncmp(printptr -> filename,"\0",1)))
-		{
-			printf("%s\n", printptr -> filename);
-			printptr = printptr -> next;
-		}
-	}
+        if(printptr)
+        {
+            while(printptr != NULL && \
+                    (strncmp(printptr -> filename,"\0",1)))
+            {
+                printf("%s\n", printptr -> filename);
+                printptr = printptr -> next;
+            }
+        }
+    }
 }
 
 
