@@ -18,20 +18,23 @@ void displayslots(slotgroupptr slotgrp)
 
 char * requestslot(slotgroupptr slotgrp)
 {
-    int i = 0;
-    while (i < NUMBEROFSLOTS)
+    if(slotgrp)
     {
-        if(slotgrp -> inuse[i] == FALSE)
+        int i = 0;
+        while (i < NUMBEROFSLOTS)
         {
-           slotgrp -> inuse[i] = TRUE;
-           return &(slotgrp -> slot[i][0]);
+            if(slotgrp -> inuse[i] == FALSE)
+            {
+               slotgrp -> inuse[i] = TRUE;
+               return &(slotgrp -> slot[i][0]);
+            }
+            ++i;
         }
-        ++i;
+        return NULL;
     }
-    return NULL;
 }
 
-destructslots(slotgroupptr slots)
+void destructslots(slotgroupptr slots)
 {
     while (slots)
     {
@@ -42,3 +45,14 @@ destructslots(slotgroupptr slots)
     }
 }
 
+void resetallslotbusystates(slotgroupptr slotgrp)
+{
+    if(slotgrp)
+    {
+        int i = 0;
+        for(i=0;i<NUMBEROFSLOTS;++i)
+        {
+                slotgrp -> inuse[i] = FALSE;
+        }
+    }
+}

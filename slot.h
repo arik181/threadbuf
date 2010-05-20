@@ -14,6 +14,8 @@ struct slotgroup
 /*** Buffer/Slot Definition ***/
 typedef struct slotgroup * slotgroupptr;
 
+void destructslots(slotgroupptr slots);
+void resetallslotbusystates(slotgroupptr slotgrp);
 slotgroupptr initslots();
 char * requestslot();
 

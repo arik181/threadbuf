@@ -9,4 +9,4 @@ struct consumer
 
 consumerptr initconsumer();
 int openbuffer();
-int consume();
+int consume(char * slot);
