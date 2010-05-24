@@ -18,7 +18,8 @@ PDFFILES = designdoc.pdf
 
 # Flags
 #LIB		= -lncurses
-LIB			= -lpthread # -lrt
+#LIB			= -lpthread # -lrt
+LIB			= -lrt
 DEBUG		= -g
 OPT			= -O2
 OBJECT		= -c

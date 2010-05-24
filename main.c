@@ -15,8 +15,29 @@
  ***/
 
 
+
+
+
 int main(int argc, char ** argv)
 {
+    sem_t * emptysemaphore;
+    sem_t * fullsemaphore;
+    sem_t * fifomutex;
+
+    // Initialize Semaphores/Mutexes
+    sem_init(emptysemaphore, 0, NUMBEROFSLOTS);
+    sem_init(fullsemaphore, 0, NUMBEROFSLOTS);
+    sem_init(fifomutex, 0, NUMBEROFSLOTS);
+
+    emptysemaphore = sem_open("empty",O_CREAT,"r+",INITIALEMPTYVALUE);
+    fullsemaphore = sem_open("full",O_CREAT,"r+",INITIALFULLVALUE);
+    fifomutex = sem_open("fifo",O_CREAT,"r+",INITIALFIFOVALUE);
+
+
+    // Create a FIFO queue for filenames
+    queueptr thequeue = initqueue();
+    addfile("in0.txt", thequeue);
+
     // Initialize semaphores
     // Create 20 producer threads.
     pthread_t producertid[MAXPRODUCERS]; 
@@ -27,7 +48,10 @@ int main(int argc, char ** argv)
     for(i=0;i<MAXPRODUCERS;++i)
     {
         pthread_attr_init(&producerattr[i]);
-        pthread_create(&producertid[i],&producerattr[i],(void *)produce,NULL);
+        void * args[2];
+        args[0] = thequeue;
+        args[1] = fifomutex;
+        pthread_create(&producertid[i],&producerattr[i],(void *)initproducer,args);
     }
     
     // Create 5 consumer threads.
@@ -38,7 +62,7 @@ int main(int argc, char ** argv)
     for(j=0;j<MAXCONSUMERS;++j)
     {
         pthread_attr_init(&consumerattr[j]);
-        pthread_create(&consumertid[j],&consumerattr[j],(void *)consume,NULL);
+        pthread_create(&consumertid[j],&consumerattr[j],(void *)initconsumer,NULL);
     }
 
     // Join all threads
@@ -54,15 +78,6 @@ int main(int argc, char ** argv)
     }
 
 
-//  ...
-//  sem_t * consumersemaphore;
-//  sem_t * producersemaphore;
-
-//  seminit(consumersemaphore, 0, 0);
-//  seminit(producersemaphore, 0, 0);
-
-//  consumersemaphore = sem_open("consumer",O_CREAT,"r+",INITIALSEMVALUE);
-//  producersemaphore = sem_open("producer",O_CREAT,"r+",INITIALSEMVALUE);
 
 }
 

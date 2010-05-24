@@ -2,21 +2,43 @@
 #include "slot.h"
 #include "queue.h"
 
-//producerptr initproducer(char * filename)
-//{
-//    while(1)
-//    {
-//        produce(filename, slot) 
-//    }
-//}
+void * initproducer(queueptr thequeue, sem_t * fifomutex)
+{
+    producerptr theproducer = calloc(1,sizeof(struct producer));
 
-int produce(char * filename, char * slot)
+    if (theproducer)
+    {
+        while(1)
+        {
+            sem_wait(fifomutex);
+            theproducer -> filename = getfile(thequeue);
+            sem_post(fifomutex);
+
+            produce(theproducer);
+        }
+    }
+
+    return theproducer;
+}
+
+void setfilename(char * filename)
+{
+}
+
+void setslot(char * slot)
+{
+}
+
+int produce(producerptr producer)
 {
     FILE * inputfile;
     char inputchar;
     
-    if(slot)
+    if(producer && producer -> slot && producer -> filename)
     {
+        char * slot = producer -> slot;
+        char * filename = producer -> filename;
+
         int j;
         for (j=0;j < SIZEOFSLOT;++j)
         {

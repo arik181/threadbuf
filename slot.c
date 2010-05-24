@@ -34,6 +34,22 @@ char * requestslot(slotgroupptr slotgrp)
     }
 }
 
+void returnslot(slotgroupptr slotgrp, char * slot)
+{
+    if(slotgrp && slot)
+    {
+        int i = 0;
+        while (i < NUMBEROFSLOTS)
+        {
+            if( (void *)&slot == (void *)&(slotgrp -> slot[i]))
+            {
+               slotgrp -> inuse[i] = FALSE;
+            }
+            ++i;
+        }
+    }
+}
+
 void destructslots(slotgroupptr slots)
 {
     while (slots)
