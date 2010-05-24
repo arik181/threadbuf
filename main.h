@@ -2,6 +2,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 
 #include "producer.h"
 #include "consumer.h"

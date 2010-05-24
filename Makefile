@@ -10,7 +10,7 @@ LD	= ld
 # Files
 FILEGENSRC  = defs.h test_filegen.c filegen.c filegen.h
 #SRC		= defs.h main.h main.c queue.h queue.c util.c filegen.c filegen.h
-SRC		= defs.h slot.h producer.h queue.h filegen.h filegen.c test_consume_function.c consumer.h consumer.c slot.c producer.c queue.c
+SRC		= defs.h main.h slot.h producer.h queue.h filegen.h main.c consumer.h consumer.c slot.c producer.c queue.c
 #SRC = test_pthreads.c
 
 TEXSRC = designdoc.tex 
@@ -18,7 +18,7 @@ PDFFILES = designdoc.pdf
 
 # Flags
 #LIB		= -lncurses
-#LIB			= -lpthread # -lrt
+LIB			= -lpthread # -lrt
 DEBUG		= -g
 OPT			= -O2
 OBJECT		= -c
