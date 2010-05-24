@@ -6,6 +6,7 @@
 /*** Queue/Node Definition ***/
 typedef struct node * nodeptr;
 typedef struct queue * queueptr;
+typedef int fifomutex;
 
 struct queue
 {

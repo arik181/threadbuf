@@ -12,8 +12,7 @@ struct producer
     int tid;
 };
 
-producerptr initproducer();
-int openfile();
+producerptr initproducer(char * filename);
 int produce(char * filename, char * slot);
 
 #endif // PRODUCER

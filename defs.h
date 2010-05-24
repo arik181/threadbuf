@@ -25,6 +25,13 @@
 #define LARGEFILE (rand() % LARGEMAXFILELENGTH) + LARGEMINFILELENGTH;
 #define MAXFILENAMESIZE     128
 
+/*** Semaphore Related ***/
+#define INITIALSEMVALUE     0
+
+/*** Thread related ***/
+#define MAXPRODUCERS        20
+#define MAXCONSUMERS        5
+
 /*** Buffer Related ***/
 #define NUMBEROFSLOTS       5
 #define SIZEOFSLOT          129

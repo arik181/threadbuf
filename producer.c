@@ -2,6 +2,15 @@
 #include "slot.h"
 #include "queue.h"
 
+producerptr initproducer(char * filename)
+{
+    while(1)
+    {
+        produce(filename, slot) 
+    }
+
+}
+
 int produce(char * filename, char * slot)
 {
     FILE * inputfile;
