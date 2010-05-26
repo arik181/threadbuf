@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "semaphore.h"
 
 #ifndef QUEUE
 #define QUEUE
@@ -11,6 +12,7 @@ struct queue
 {
 	nodeptr queuefront;
 	nodeptr queueback;
+    sem_t fifomutex;
     int count;
 };
 

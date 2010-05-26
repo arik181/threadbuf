@@ -26,8 +26,8 @@
 #define MAXFILENAMESIZE     128
 
 /*** Semaphore Related ***/
-#define INITIALFULLVALUE    5
-#define INITIALEMPTYVALUE   0
+#define INITIALFULLVALUE    0
+#define INITIALEMPTYVALUE   5
 #define INITIALFIFOVALUE    1
 
 /*** Thread related ***/

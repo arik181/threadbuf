@@ -6,5 +6,6 @@
 
 #include "producer.h"
 #include "consumer.h"
+#include "package.h"
 
 int main(int argc, char ** argv);

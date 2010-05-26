@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "semaphore.h"
 
 #ifndef SLOT
 #define SLOT
@@ -6,8 +7,8 @@
 struct slotgroup
 {
     char slot[NUMBEROFSLOTS][SIZEOFSLOT];
-    int fillcount[NUMBEROFSLOTS];
-    int inuse[NUMBEROFSLOTS];
+    sem_t emptysemaphore;
+    sem_t fullsemaphore;
 };
 
 
@@ -15,8 +16,8 @@ struct slotgroup
 typedef struct slotgroup * slotgroupptr;
 
 void destructslots(slotgroupptr slots);
-void resetallslotbusystates(slotgroupptr slotgrp);
+void resetallslotbusystates(slotgroupptr buffer);
 slotgroupptr initslots();
-char * requestslot();
+char * requestslot(slotgroupptr buffer, int index);
 
 #endif // SLOT

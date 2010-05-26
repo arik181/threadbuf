@@ -51,6 +51,7 @@ char * getfile(queueptr queue)
             return filename;
        }
     }
+
     else return NULL;
 }
 
@@ -63,7 +64,8 @@ void dequeue(queueptr queue)
         if (temp)
         {
             queue -> queuefront = temp -> next;
-            queue -> queuefront -> prev = NULL;
+            if (queue -> queuefront)
+                queue -> queuefront -> prev = NULL;
             free(temp);
         }
         --(queue -> count);

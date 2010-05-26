@@ -15,28 +15,41 @@
  ***/
 
 
-
-
-
 int main(int argc, char ** argv)
 {
-    sem_t * emptysemaphore;
-    sem_t * fullsemaphore;
-    sem_t * fifomutex;
-
-    // Initialize Semaphores/Mutexes
-    sem_init(emptysemaphore, 0, NUMBEROFSLOTS);
-    sem_init(fullsemaphore, 0, NUMBEROFSLOTS);
-    sem_init(fifomutex, 0, NUMBEROFSLOTS);
-
-    emptysemaphore = sem_open("empty",O_CREAT,"r+",INITIALEMPTYVALUE);
-    fullsemaphore = sem_open("full",O_CREAT,"r+",INITIALFULLVALUE);
-    fifomutex = sem_open("fifo",O_CREAT,"r+",INITIALFIFOVALUE);
-
-
     // Create a FIFO queue for filenames
     queueptr thequeue = initqueue();
     addfile("in0.txt", thequeue);
+    addfile("in1.txt", thequeue);
+    addfile("in2.txt", thequeue);
+    addfile("in3.txt", thequeue);
+    addfile("in4.txt", thequeue);
+    addfile("in5.txt", thequeue);
+    addfile("in6.txt", thequeue);
+    addfile("in7.txt", thequeue);
+    addfile("in8.txt", thequeue);
+    addfile("in9.txt", thequeue);
+    addfile("in10.txt", thequeue);
+    addfile("in11.txt", thequeue);
+    addfile("in12.txt", thequeue);
+    addfile("in13.txt", thequeue);
+    addfile("in14.txt", thequeue);
+    addfile("in15.txt", thequeue);
+    addfile("in16.txt", thequeue);
+    addfile("in17.txt", thequeue);
+    addfile("in18.txt", thequeue);
+    addfile("in19.txt", thequeue);
+
+    // Create the buffer
+    slotgroupptr thebuffer = initslots();
+
+    // Create a struct "package" containing both queue and buffer
+    packageptr thepackage = initpackage(thequeue, thebuffer);
+
+    // Initialize Semaphores/Mutexes
+    sem_init(&(thebuffer -> emptysemaphore), 0, INITIALEMPTYVALUE);
+    sem_init(&(thebuffer -> fullsemaphore), 0, INITIALFULLVALUE);
+    sem_init(&(thequeue -> fifomutex), 0, INITIALFIFOVALUE);
 
     // Initialize semaphores
     // Create 20 producer threads.
@@ -48,35 +61,19 @@ int main(int argc, char ** argv)
     for(i=0;i<MAXPRODUCERS;++i)
     {
         pthread_attr_init(&producerattr[i]);
-        void * args[2];
-        args[0] = thequeue;
-        args[1] = fifomutex;
-        pthread_create(&producertid[i],&producerattr[i],(void *)initproducer,args);
+        pthread_create(&producertid[i],&producerattr[i],(void*)produce,thepackage);
     }
     
-    // Create 5 consumer threads.
-    pthread_t consumertid[MAXCONSUMERS];
-    pthread_attr_t consumerattr[MAXCONSUMERS];
+//  // Create 5 consumer threads.
+//  pthread_t consumertid[MAXCONSUMERS];
+//  pthread_attr_t consumerattr[MAXCONSUMERS];
 
-    int j = 0;
-    for(j=0;j<MAXCONSUMERS;++j)
-    {
-        pthread_attr_init(&consumerattr[j]);
-        pthread_create(&consumertid[j],&consumerattr[j],(void *)initconsumer,NULL);
-    }
-
-    // Join all threads
-    int k = 0;
-    for(k=0;k<MAXPRODUCERS;++k)
-    {
-        pthread_join(producertid[k], NULL);
-    }
-    int l = 0;
-    for(l=0;l<MAXCONSUMERS;++l)
-    {
-        pthread_join(consumertid[l], NULL);
-    }
-
+//  int j = 0;
+//  for(j=0;j<MAXCONSUMERS;++j)
+//  {
+//      pthread_attr_init(&consumerattr[j]);
+//      pthread_create(&consumertid[j],&consumerattr[j],(void *)initconsumer,NULL);
+//  }
 
 
 }
